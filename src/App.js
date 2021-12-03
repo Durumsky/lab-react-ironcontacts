@@ -1,14 +1,34 @@
 import React, { useState } from "react";
 import "./App.css";
-import contacts from "./contacts.json";
+import contactsArr from "./contacts.json";
 
 function App() {
-  const fiveContacts = contacts.slice(0, 5);
-  console.log(fiveContacts);
+  const [contacts, setContacts] = useState(contactsArr.slice(0, 5));
+
+  const random = () => {
+    
+    
+    const randomContact =
+            contactsArr[Math.floor(Math.random() * contactsArr.length - 1)];
+
+    const randomId = randomContact.id
+
+    let inList = false;
+
+    for (let contact of contacts){
+      if (randomId === contact.id){
+        inList = true
+      }
+    }
+    if (!inList){
+      setContacts((contacts) => [randomContact, ...contacts]);
+    }
+  };
 
   return (
     <div className="App">
       <h1>IronContacts</h1>
+      <button onClick={random}>Add Random Contact</button>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -20,7 +40,7 @@ function App() {
               <th>Won Emmy</th>
             </tr>
           </thead>
-          {fiveContacts.map((contact) => {
+          {contacts.map((contact) => {
             return (
               <tbody>
                 <td>
