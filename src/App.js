@@ -6,29 +6,37 @@ function App() {
   const [contacts, setContacts] = useState(contactsArr.slice(0, 5));
 
   const random = () => {
+    const randomContact = contactsArr[Math.floor(Math.random() * contactsArr.length - 1)];
+    let inList = contacts.find((contact) => randomContact.id === contact.id);
     
-    
-    const randomContact =
-            contactsArr[Math.floor(Math.random() * contactsArr.length - 1)];
-
-    const randomId = randomContact.id
-
-    let inList = false;
-
-    for (let contact of contacts){
-      if (randomId === contact.id){
-        inList = true
-      }
-    }
-    if (!inList){
+    if (!inList) {
       setContacts((contacts) => [randomContact, ...contacts]);
-    }
+    } else random();
+
   };
+
+  const sortName = () => {
+   const sortedByName = contacts.sort((a , b) => {
+     return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase())
+   })
+   setContacts((contacts) => [...sortedByName])
+  };
+
+  const sortPopularity = () => {
+    const sortedByPopularity = contacts.sort((a , b) => {
+      return b.popularity - a.popularity
+    })
+    setContacts((contacts) => [...sortedByPopularity])
+   };
+
+
 
   return (
     <div className="App">
       <h1>IronContacts</h1>
       <button onClick={random}>Add Random Contact</button>
+      <button onClick={sortName}>Sort by name</button>
+      <button onClick={sortPopularity}>Sort by popularity</button>
       <div class="table-wrapper">
         <table>
           <thead>
